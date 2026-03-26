@@ -19,8 +19,7 @@
     justify-content: center !important;
   }
 
-  .hero-logo-center,
-  .hero-logo-center img {
+  .hero-logo-center {
     position: relative !important;
     top: auto !important;
     left: auto !important;
@@ -28,10 +27,26 @@
     bottom: auto !important;
     transform: none !important;
     z-index: 2;
-    margin-bottom: 1.5rem;
-    width: 220px;
-    max-width: 55vw;
+    margin-top: 60px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-logo-center img {
+    position: relative !important;
+    transform: none !important;
+    width: 300px;
+    max-width: 70vw;
     display: block;
+  }
+
+  .hero-badge-standalone {
+    margin-top: 0.6rem;
+    margin-bottom: 1.25rem;
+    z-index: 2;
+    position: relative;
   }
 
   .hero-content {
@@ -52,12 +67,78 @@
 
   @media (max-width: 768px) {
     .hero-logo-center img {
-      width: 160px;
-      max-width: 60vw;
+      width: 220px;
+      max-width: 65vw;
     }
 
     .hero-content {
       padding: 0 1rem;
+    }
+  }
+
+  /* ── Menu split image layout ── */
+  .menu-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .menu-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .menu-item-header {
+    padding: 8px 12px !important;
+  }
+
+  .menu-item-header h3 {
+    font-size: 0.85rem !important;
+    margin: 0 !important;
+  }
+
+  /* Each half is a clipping window into the same image */
+  .menu-item-content.menu-half {
+    overflow: hidden;
+    height: 180px;
+    position: relative;
+  }
+
+  .menu-item-content.menu-half img {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+
+  /* Top half: clip to top portion */
+  .menu-item-content.menu-half.top img {
+    object-fit: cover !important;
+    height: 180px !important;
+    object-position: top !important;
+  }
+
+  /* Bottom half: clip to bottom portion */
+  .menu-item-content.menu-half.bottom img {
+    object-fit: cover !important;
+    height: 180px !important;
+    object-position: bottom !important;
+  }
+
+  @media (max-width: 600px) {
+    .menu-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .menu-item-content.menu-half {
+      height: 160px;
+    }
+
+    .menu-item-content.menu-half.top img,
+    .menu-item-content.menu-half.bottom img {
+      height: 160px !important;
     }
   }
 </style>
@@ -91,14 +172,16 @@
     <div class="hero-bg"></div>
 
 ```
-<!-- Logo on top -->
+<!-- Logo -->
 <div class="hero-logo-center">
   <img src="images/LOSPOTRILLOSLOGO.png" alt="Los Potrillos">
 </div>
 
-<!-- Text content below the logo -->
+<!-- Badge below logo, clear of it -->
+<span class="hero-badge hero-badge-standalone">Family Owned Since 2011</span>
+
+<!-- Subtitle and buttons -->
 <div class="hero-content">
-  <span class="hero-badge">Family Owned Since 2011</span>
   <h1 class="hero-title">Los Potrillos</h1>
   <p class="hero-subtitle">Authentic Mexican Cuisine in Pleasanton, Texas</p>
   <div class="hero-actions">
@@ -154,40 +237,60 @@
         <p class="section-subtitle">Fresh ingredients, authentic flavors</p>
       </div>
       <div class="menu-grid">
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Breakfast / Desayunos</h3></div>
-          <div class="menu-item-content"><img src="images/BFASTpage.jpg" alt="Breakfast"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Appetizers / Aperitivos</h3></div>
-          <div class="menu-item-content"><img src="images/!st#pg.jpg" alt="Appetizers"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Tacos &amp; Burritos</h3></div>
-          <div class="menu-item-content"><img src="images/2nd#pg.jpg" alt="Tacos"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Family Platters / Parrilladas</h3></div>
-          <div class="menu-item-content"><img src="images/3rdpg.jpg" alt="Family Platters"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Specials / Especiales</h3></div>
-          <div class="menu-item-content"><img src="images/Xtrapg.jpg" alt="Specials"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Singles &amp; Combos</h3></div>
-          <div class="menu-item-content"><img src="images/SInglespg.jpg" alt="Combos"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Main Dishes / Platillos</h3></div>
-          <div class="menu-item-content"><img src="images/FOODCUSTOMRE.jpg" alt="Main Dishes"></div>
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-header"><h3>Kids Menu / Niños</h3></div>
-          <div class="menu-item-content"><img src="images/kidspg.jpg" alt="Kids Menu"></div>
-        </div>
-      </div>
+
+```
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Breakfast / Desayunos</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/BFASTpage.jpg" alt="Breakfast Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/BFASTpage.jpg" alt="Breakfast Bottom"></div>
     </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Appetizers / Aperitivos</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/!st#pg.jpg" alt="Appetizers Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/!st#pg.jpg" alt="Appetizers Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Tacos &amp; Burritos</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/2nd#pg.jpg" alt="Tacos Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/2nd#pg.jpg" alt="Tacos Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Family Platters / Parrilladas</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/3rdpg.jpg" alt="Platters Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/3rdpg.jpg" alt="Platters Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Specials / Especiales</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/Xtrapg.jpg" alt="Specials Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/Xtrapg.jpg" alt="Specials Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Singles &amp; Combos</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/SInglespg.jpg" alt="Combos Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/SInglespg.jpg" alt="Combos Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Main Dishes / Platillos</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/FOODCUSTOMRE.jpg" alt="Main Dishes Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/FOODCUSTOMRE.jpg" alt="Main Dishes Bottom"></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-item-header"><h3>Kids Menu / Niños</h3></div>
+      <div class="menu-item-content menu-half top"><img src="images/kidspg.jpg" alt="Kids Top"></div>
+      <div class="menu-item-content menu-half bottom"><img src="images/kidspg.jpg" alt="Kids Bottom"></div>
+    </div>
+
+  </div>
+</div>
+```
+
   </section>
 
   <section class="cta-banner">
