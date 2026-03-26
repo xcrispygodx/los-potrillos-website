@@ -76,70 +76,95 @@
     }
   }
 
-  /* ── Menu split image layout ── */
-  .menu-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-    max-width: 900px;
+  /* ── Menu slider ── */
+  .menu-slider-wrapper {
+    position: relative;
+    max-width: 560px;
     margin: 0 auto;
   }
 
-  .menu-item {
-    border-radius: 8px;
+  .menu-slider {
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
   }
 
-  .menu-item-header {
-    padding: 8px 12px !important;
+  .menu-slider-track {
+    display: flex;
+    transition: transform 0.4s ease;
   }
 
-  .menu-item-header h3 {
-    font-size: 0.85rem !important;
-    margin: 0 !important;
+  .menu-slide {
+    min-width: 100%;
+    flex-shrink: 0;
   }
 
-  /* Each half is a clipping window into the same image */
-  .menu-item-content.menu-half {
-    overflow: hidden;
-    height: 180px;
-    position: relative;
+  .menu-slide-label {
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: var(--color-primary, #8B1A1A);
+    color: #fff;
+    letter-spacing: 0.03em;
   }
 
-  .menu-item-content.menu-half img {
+  .menu-slide img {
     width: 100%;
-    display: block;
     height: auto;
+    display: block;
   }
 
-  /* Top half: clip to top portion */
-  .menu-item-content.menu-half.top img {
-    object-fit: cover !important;
-    height: 180px !important;
-    object-position: top !important;
+  /* Arrows */
+  .menu-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
   }
 
-  /* Bottom half: clip to bottom portion */
-  .menu-item-content.menu-half.bottom img {
-    object-fit: cover !important;
-    height: 180px !important;
-    object-position: bottom !important;
+  .menu-arrow:hover { background: rgba(0,0,0,0.8); }
+  .menu-arrow.prev { left: -50px; }
+  .menu-arrow.next { right: -50px; }
+
+  /* Dots */
+  .menu-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
   }
 
-  @media (max-width: 600px) {
-    .menu-grid {
-      grid-template-columns: 1fr !important;
-    }
+  .menu-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ccc;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+  }
 
-    .menu-item-content.menu-half {
-      height: 160px;
-    }
+  .menu-dot.active { background: var(--color-primary, #8B1A1A); }
 
-    .menu-item-content.menu-half.top img,
-    .menu-item-content.menu-half.bottom img {
-      height: 160px !important;
-    }
+  @media (max-width: 680px) {
+    .menu-slider-wrapper { max-width: 100%; }
+    .menu-arrow.prev { left: 4px; }
+    .menu-arrow.next { right: 4px; }
+    .menu-arrow { background: rgba(0,0,0,0.45); width: 36px; height: 36px; font-size: 1rem; }
   }
 </style>
 
@@ -236,51 +261,53 @@
         <h2 class="section-title">Homemade Mexican Food</h2>
         <p class="section-subtitle">Fresh ingredients, authentic flavors</p>
       </div>
-      <div class="menu-grid">
+      <div class="menu-slider-wrapper">
+        <button class="menu-arrow prev" aria-label="Previous">&#8249;</button>
+        <button class="menu-arrow next" aria-label="Next">&#8250;</button>
 
 ```
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Breakfast / Desayunos</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/BFASTpage.jpg" alt="Breakfast Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/BFASTpage.jpg" alt="Breakfast Bottom"></div>
+    <div class="menu-slider">
+      <div class="menu-slider-track" id="menuTrack">
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Breakfast / Desayunos</div>
+          <img src="images/BFASTpage.jpg" alt="Breakfast Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Appetizers / Aperitivos</div>
+          <img src="images/%21st%23pg.jpg" alt="Appetizers Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Tacos &amp; Burritos</div>
+          <img src="images/2nd%23pg.jpg" alt="Tacos Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Family Platters / Parrilladas</div>
+          <img src="images/3rdpg.jpg" alt="Family Platters Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Specials / Especiales</div>
+          <img src="images/Xtrapg.jpg" alt="Specials Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Singles &amp; Combos</div>
+          <img src="images/SInglespg.jpg" alt="Singles and Combos Menu">
+        </div>
+
+        <div class="menu-slide">
+          <div class="menu-slide-label">Kids Menu / Niños</div>
+          <img src="images/kidspg.jpg" alt="Kids Menu">
+        </div>
+
+      </div>
     </div>
 
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Appetizers / Aperitivos</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/%21st%23pg.jpg" alt="Appetizers Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/%21st%23pg.jpg" alt="Appetizers Bottom"></div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Tacos &amp; Burritos</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/2nd%23pg.jpg" alt="Tacos Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/2nd%23pg.jpg" alt="Tacos Bottom"></div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Family Platters / Parrilladas</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/3rdpg.jpg" alt="Platters Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/3rdpg.jpg" alt="Platters Bottom"></div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Specials / Especiales</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/Xtrapg.jpg" alt="Specials Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/Xtrapg.jpg" alt="Specials Bottom"></div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Singles &amp; Combos</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/SInglespg.jpg" alt="Combos Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/SInglespg.jpg" alt="Combos Bottom"></div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-item-header"><h3>Kids Menu / Niños</h3></div>
-      <div class="menu-item-content menu-half top"><img src="images/kidspg.jpg" alt="Kids Top"></div>
-      <div class="menu-item-content menu-half bottom"><img src="images/kidspg.jpg" alt="Kids Bottom"></div>
-    </div>
-
+    <div class="menu-dots" id="menuDots"></div>
   </div>
 </div>
 ```
@@ -387,6 +414,44 @@
 </footer>
 
 <script src="script.js"></script>
+
+<script>
+  (function() {
+    const track   = document.getElementById('menuTrack');
+    const slides  = track.querySelectorAll('.menu-slide');
+    const dotsBox = document.getElementById('menuDots');
+    const total   = slides.length;
+    let current   = 0;
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'menu-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      d.addEventListener('click', () => goTo(i));
+      dotsBox.appendChild(d);
+    });
+
+    function goTo(n) {
+      current = (n + total) % total;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dotsBox.querySelectorAll('.menu-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === current)
+      );
+    }
+
+    document.querySelector('.menu-arrow.prev').addEventListener('click', () => goTo(current - 1));
+    document.querySelector('.menu-arrow.next').addEventListener('click', () => goTo(current + 1));
+
+    // Swipe support for mobile
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    });
+  })();
+</script>
 
 </body>
 </html>
